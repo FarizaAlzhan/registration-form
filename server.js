@@ -1,6 +1,6 @@
 const { ApolloServer, gql } = require('apollo-server');
 
-// Массив пользователей (замените этим реальной базой данных)
+// Здесь ваш массив пользователей (замените его на вашу реальную базу данных)
 let users = [];
 
 const typeDefs = gql`
@@ -11,7 +11,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    dummyQuery: String
+    users: [User!]! # Запрос для получения списка пользователей
   }
 
   type Mutation {
@@ -21,25 +21,24 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    dummyQuery: () => "This is a dummy query"
+    users: () => users // Резолвер для запроса списка пользователей
   },
   Mutation: {
     registerUser: (_, { name, email, password }) => {
-      // Проверяем, есть ли уже пользователь с таким email
+      // Проверка на существующего пользователя
       const existingUser = users.find(user => user.email === email);
       if (existingUser) {
         throw new Error('User with this email already exists');
       }
 
-      // Создаем нового пользователя
       const newUser = {
         id: String(users.length + 1),
         name,
         email,
-        password // В реальной жизни пароль нужно хешировать перед сохранением
+        password 
       };
 
-      // Сохраняем пользователя
+      // Сохранение нового пользователя
       users.push(newUser);
 
       return newUser;

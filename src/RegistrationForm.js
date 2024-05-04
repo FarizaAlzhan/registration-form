@@ -15,10 +15,10 @@ const REGISTER_USER = gql`
 
 
 
+
 const RegistrationForm = () => {
   const { register, handleSubmit, formState: { errors }, getValues } = useForm();
   const [registerUser, { loading: registrationLoading, error: registrationError }] = useMutation(REGISTER_USER);
-  
 
   const onSubmit = async (data) => {
     try {
